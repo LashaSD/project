@@ -17,6 +17,7 @@ public:
 	void render(Entity& p_entity);
 	void addToQueue(Entity& p_entity);
 	void addToQueue(std::vector<Entity> p_entities);
+	std::vector<Entity>& getQueue();
 	void renderQueue();
 	void display();
 private:

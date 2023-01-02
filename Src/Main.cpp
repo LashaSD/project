@@ -8,6 +8,7 @@
 #include "Math.hpp"
 #include "Utils.hpp"
 
+
 int main(int argc, char* args[])
 {
 	if (SDL_Init(SDL_INIT_EVERYTHING) < 0)
@@ -27,20 +28,14 @@ int main(int argc, char* args[])
 									Entity(Vector2f(64, 96),grassTexture),
 									Entity(Vector2f(96, 96),grassTexture),
 									Entity(Vector2f(128, 96),grassTexture),};
+
 	window.addToQueue(entities);
 
 	bool appRunning = true;
 	SDL_Event e;
 
-	float totalFrameTicks = 0;
-	float totalFrames = 0;
-
 	while (appRunning)
 	{
-
-		totalFrames++;
-		float startTicks = SDL_GetTicks();
-		float startPerf = SDL_GetPerformanceCounter();
 
 		window.clear();
 
@@ -53,17 +48,29 @@ int main(int argc, char* args[])
 			}
 		}
 
+		// Physics Loop
+
+		for (Entity& entity : window.getQueue())
+		{
+			entity.getPos().x += entity.getAcceleration().x;
+			entity.getPos().y += entity.getAcceleration().y;
+			if (entity.getPos().x >= 1248 || entity.getPos().x <= 0)
+			{
+				// Collision with the Wall on the X-Axis
+				entity.accelerate(((entity.getAcceleration().x)*-2), 0);
+				entity.getAcceleration().x -= 1.0f;
+			}
+			if (entity.getPos().y >= 688 || entity.getPos().y <= 0)
+			{
+				// Collision with the Wall on the Y-Axis
+				entity.accelerate(0, ((entity.getAcceleration().y)*-2));
+				entity.getAcceleration().y += 1.0f;
+			}
+		}
+
 		// Render Loop
 		window.renderQueue();
 		window.display();
-
-		float endTicks = SDL_GetTicks();
-		float endPerf = SDL_GetPerformanceCounter();
-		float framePerf = endPerf - startPerf;
-		float frameTime = (endTicks - startTicks) / 1000.0f;
-		totalFrameTicks += endTicks - startTicks;
-
-		printf("FPS: %f, AvgFPS: %f, framePerformance: %f\n", (1.0f / frameTime), (1000.0f / (totalFrameTicks / totalFrames)), framePerf);
 	}
 	window.cleanUp();
 	SDL_Quit();

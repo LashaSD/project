@@ -55,10 +55,10 @@ void RenderWindow::render(Entity& p_entity)
 	src.h = p_entity.getCurrentFrame().h;
 
 	SDL_Rect dest; //Finishing Point of render of the Texture
-	dest.x = p_entity.getPos().x * 2;
-	dest.y = p_entity.getPos().y * 2;
-	dest.w = p_entity.getCurrentFrame().w * 2;
-	dest.h = p_entity.getCurrentFrame().h * 2;	 
+	dest.x = p_entity.getPos().x;
+	dest.y = p_entity.getPos().y;
+	dest.w = p_entity.getCurrentFrame().w;
+	dest.h = p_entity.getCurrentFrame().h;	 
 	SDL_RenderCopy(renderer, p_entity.getTexture(), &src, &dest);
 }
 
@@ -73,6 +73,11 @@ void RenderWindow::addToQueue(std::vector<Entity> p_entities)
 	{
 		queue.push_back(entity);
 	}
+}
+
+std::vector<Entity>& RenderWindow::getQueue()
+{
+	return queue;
 }
 
 void RenderWindow::renderQueue()
