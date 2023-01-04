@@ -1,26 +1,34 @@
 #pragma once
 
+#include <unordered_map>
+#include <typeinfo>
+#include <typeindex>
 #include <SDL.h>
 #include <SDL_image.h>
 
 #include "Math.hpp"
+#include "Component.hpp"
 
 class Entity
 {
 public:
-	Entity(Vector2f p_pos, SDL_Texture* p_texture);
+	Entity(int p_id) : id(p_id) {};
+	~Entity();
 
-	Vector2f& getPos();
+	int getId() { return id; }
 
-	Vector2f& getAcceleration();
-	void accelerate(float p_x, float p_y);
+	template <typename T>
+	void addComponent(T* p_component);
 
-	SDL_Texture* getTexture();
+	template <typename T>
+	void removeComponent();
 
-	SDL_Rect getCurrentFrame();
+	template <typename T>
+	T* getComponent()
+	{
+		return static_cast<T*>(components[typeId(typename T)]);
+	}
 private:
-	Vector2f pos;
-	Vector2f acceleration;
-	SDL_Rect currentFrame;
-	SDL_Texture* texture;
+	int id;
+	std::unordered_map<std::type_index, Component*> components;
 }; 

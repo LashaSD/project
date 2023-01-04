@@ -1,42 +1,19 @@
 #include <SDL.h>
 #include <SDL_image.h>
+#include <typeinfo>
+#include <typeindex>
 
 #include "Entity.hpp"
 #include "Math.hpp"
 
-Entity::Entity(Vector2f p_pos, SDL_Texture* p_texture)
-:pos(p_pos), texture(p_texture), acceleration(Vector2f(4.0f, 4.0f))
+template <typename T>
+void Entity::addComponent(T* p_component)
 {
-	currentFrame.x = 0;
-	currentFrame.y = 0;
-	currentFrame.w = 32;
-	currentFrame.h = 32; 
-};
-
-Vector2f& Entity::getPos()
-{
-	return pos;
+	components[typeid(typename T)] = p_component;
 }
 
-Vector2f& Entity::getAcceleration()
+template <typename T>
+void Entity::removeComponent()
 {
-	return acceleration;
+	components.erase(typeid(typename T));
 }
-
-void Entity::accelerate(float p_x, float p_y)
-{
-	acceleration.x += p_x;
-	acceleration.y += p_y;
-}
-
-SDL_Texture* Entity::getTexture()
-{
-	return texture;
-}
-
-SDL_Rect Entity::getCurrentFrame()
-{
-	return currentFrame;
-}
-
-

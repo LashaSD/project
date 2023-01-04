@@ -4,6 +4,7 @@
 #include <vector>
 
 #include "RenderWindow.hpp"
+#include "PositionComponent.hpp"
 #include "Entity.hpp"
 
 RenderWindow::RenderWindow(const char* p_title, int p_w, int p_h)
@@ -46,20 +47,26 @@ void RenderWindow::clear()
 	SDL_RenderClear(renderer);
 }
 
-void RenderWindow::render(Entity& p_entity)
+void RenderWindow::render(Entity* p_entity)
 {
+	PositionComponent* position = p_entity->getComponent<PositionComponent*>();
 	SDL_Rect src; //Starting Point of render of the Texture
-	src.x = p_entity.getCurrentFrame().x;
-	src.y = p_entity.getCurrentFrame().y;
-	src.w = p_entity.getCurrentFrame().w;
-	src.h = p_entity.getCurrentFrame().h;
+	src.x = 0;
+	src.y = 0;
+	src.w = 32; //Implement Appearance Component Later to give Scale and Texture
+	src.h = 32; 
 
 	SDL_Rect dest; //Finishing Point of render of the Texture
-	dest.x = p_entity.getPos().x;
-	dest.y = p_entity.getPos().y;
-	dest.w = p_entity.getCurrentFrame().w;
-	dest.h = p_entity.getCurrentFrame().h;	 
-	SDL_RenderCopy(renderer, p_entity.getTexture(), &src, &dest);
+	dest.x = position->x;
+	dest.y = position->y;
+	dest.w = 32;
+	dest.h = 32;	 
+
+	// remove later when TextureComponent is implemented
+	SDL_Texture* texture = loadTexture("res/gfx/ground_grass.png");
+
+
+	SDL_RenderCopy(renderer, texture, &src, &dest);
 }
 
 void RenderWindow::addToQueue(Entity& p_entity)
