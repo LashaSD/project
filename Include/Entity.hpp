@@ -8,7 +8,9 @@
 class Entity
 {
 public:
-	Entity(Vector2f p_pos, SDL_Texture* p_texture);
+	Entity(int p_id, Vector2f p_pos, SDL_Texture* p_texture);
+
+	int getId() { return id; }
 
 	Vector2f& getPos() { return pos; }
 
@@ -16,7 +18,9 @@ public:
 
 	SDL_Rect getCurrentFrame() { return currentFrame; }
 protected:
+	int id;
 	Vector2f pos;
+	float rotation;
 	SDL_Rect currentFrame;
 	SDL_Texture* texture;
 }; 

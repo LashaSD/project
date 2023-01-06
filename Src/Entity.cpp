@@ -4,8 +4,8 @@
 #include "Entity.hpp"
 #include "Math.hpp"
 
-Entity::Entity(Vector2f p_pos, SDL_Texture* p_texture)
-:pos(p_pos), texture(p_texture)
+Entity::Entity(int p_id, Vector2f p_pos, SDL_Texture* p_texture)
+: id(p_id), pos(p_pos), texture(p_texture)
 {
 	currentFrame.x = 0;
 	currentFrame.y = 0;

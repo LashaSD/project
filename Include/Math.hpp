@@ -1,5 +1,7 @@
 #pragma once
 
+#include <cmath>
+
 struct Vector2f
 {
 	Vector2f()
@@ -10,7 +12,47 @@ struct Vector2f
 	: x(p_x), y(p_y)
 	{}
 
-	void print()
+	Vector2f operator+(const Vector2f& vec) const 
+	{
+		return Vector2f(x + vec.x, y + vec.y);
+	}
+
+	Vector2f operator-(const Vector2f& vec) const 
+	{
+		return Vector2f(x - vec.x, y - vec.y);
+	}
+
+	Vector2f operator*(const Vector2f& vec) const 
+	{
+		return Vector2f(x * vec.x, y * vec.y);
+	}
+
+	Vector2f operator*(float val) const 
+	{
+		return Vector2f(x * val, y * val);
+	}
+
+	Vector2f operator/(float val) const 
+	{
+		return Vector2f(x / val, y / val);
+	}
+
+	Vector2f normalize() const 
+	{
+		double length = std::sqrt(x*x + y*y);
+		return Vector2f(x / length, y / length);
+	}
+
+	float dot(const Vector2f& vec) const 
+	{
+		return x * vec.x + y * vec.y;
+	}
+
+	float cross(const Vector2f& vec) const 
+	{
+		return x * vec.y - y * vec.x;
+	}
+	void print() const 
 	{
 		printf("x: %f, y: %f\n", x, y);
 	}
@@ -18,20 +60,4 @@ struct Vector2f
 	float x, y;
 };
 
-struct Vector2 
-{
-	Vector2() 
-	:x(0), y(0)
-	{ }
 
-	Vector2(int p_x, int p_y) 
-	:x(p_x), y(p_y)
-	{ }
-
-	void print()
-	{
-		printf("x: %d, y: %d\n", x, y);
-	}
-
-	int x, y;
-};

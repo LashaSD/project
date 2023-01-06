@@ -9,22 +9,28 @@
 class Rigidbody : public Entity
 {
 public:
-	Rigidbody(Vector2f p_pos, SDL_Texture* p_texture, float mass);
+	Rigidbody(int p_id, Vector2f p_pos, SDL_Texture* p_texture, float p_mass);
 	~Rigidbody();
 
 	void update(float p_dt);
-	void updatePhysics(float p_dt);
 
 	void setVelocity(float p_x, float p_y);
 	Vector2f& getVelocity() { return velocity; }
-	Vector2f& getMomentum() { return momentum; }
+
+	Vector2f& getCenterOfMass() { return centerOfMass; }
+
+	float getMass() { return mass; }
+
+	float getMomentOfInertia() { return momentOfInertia; }
+
+	float& getAngularVel() { return angularVelocity; }
+
+	void calculateValues();
 
 private:
 	Vector2f velocity;
-	Vector2f momentum;
-	float mass;
-
-	float angle;
-	Vector2f angularVelocity;
-	// MomentOfInertia
+	Vector2f centerOfMass;
+	float mass = 2.0f;
+	float momentOfInertia = 87381.3333333;
+	float angularVelocity = 0.0f;
 };
