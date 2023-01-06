@@ -46,7 +46,7 @@ void RenderWindow::clear()
 	SDL_RenderClear(renderer);
 }
 
-void RenderWindow::render(Entity& p_entity)
+void RenderWindow::render(Rigidbody& p_entity)
 {
 	SDL_Rect src; //Starting Point of render of the Texture
 	src.x = p_entity.getCurrentFrame().x;
@@ -62,27 +62,27 @@ void RenderWindow::render(Entity& p_entity)
 	SDL_RenderCopy(renderer, p_entity.getTexture(), &src, &dest);
 }
 
-void RenderWindow::addToQueue(Entity& p_entity)
+void RenderWindow::addToScene(Rigidbody& p_entity)
 {
-	queue.push_back(p_entity);
+	scene.push_back(p_entity);
 }
 
-void RenderWindow::addToQueue(std::vector<Entity> p_entities)
+void RenderWindow::addToScene(std::vector<Rigidbody> p_entities)
 {
-	for (Entity& entity : p_entities)
+	for (Rigidbody& entity : p_entities)
 	{
-		queue.push_back(entity);
+		scene.push_back(entity);
 	}
 }
 
-std::vector<Entity>& RenderWindow::getQueue()
+std::vector<Rigidbody>& RenderWindow::getScene()
 {
-	return queue;
+	return scene;
 }
 
-void RenderWindow::renderQueue()
+void RenderWindow::renderScene()
 {
-	for (Entity& entity : queue)
+	for (Rigidbody& entity : scene)
 	{
 		render(entity);
 	}

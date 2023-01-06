@@ -10,17 +10,13 @@ class Entity
 public:
 	Entity(Vector2f p_pos, SDL_Texture* p_texture);
 
-	Vector2f& getPos();
+	Vector2f& getPos() { return pos; }
 
-	Vector2f& getAcceleration();
-	void accelerate(float p_x, float p_y);
+	SDL_Texture* getTexture() { return texture; }
 
-	SDL_Texture* getTexture();
-
-	SDL_Rect getCurrentFrame();
-private:
+	SDL_Rect getCurrentFrame() { return currentFrame; }
+protected:
 	Vector2f pos;
-	Vector2f acceleration;
 	SDL_Rect currentFrame;
 	SDL_Texture* texture;
 }; 

@@ -4,25 +4,31 @@
 #include <vector>
 
 #include "Entity.hpp"
+#include "RigidBody.hpp"
 #include "Math.hpp"
 
 class RenderWindow
 {
 public:
 	RenderWindow(const char* p_title, int p_w, int p_h);
+
 	SDL_Texture* loadTexture(const char* p_filePath);
+
 	int getRefreshRate();
+
 	void cleanUp();
 	void clear();
-	void render(Entity& p_entity);
-	void addToQueue(Entity& p_entity);
-	void addToQueue(std::vector<Entity> p_entities);
-	std::vector<Entity>& getQueue();
-	void renderQueue();
 	void display();
+
+	void render(Rigidbody& p_entity);
+
+	void addToScene(Rigidbody& p_entity);
+	void addToScene(std::vector<Rigidbody> p_entities);
+	std::vector<Rigidbody>& getScene();
+	void renderScene();
 private:
 	SDL_Window* window; 
 	SDL_Renderer* renderer; 
 	SDL_Texture* texture;
-	std::vector<Entity> queue;
+	std::vector<Rigidbody> scene;
 };
